@@ -18,19 +18,15 @@ try:
 	response = urllib2.urlopen(request)
 	content = response.read().decode('utf-8')
 	#print content
-	#pattern = re.compile(r'<div.*?author.*?>.*?<h2>(.*?)</h2>.*?<div.*?conten.>.*?<span>(.*?)</span>.*?<(img.*?src=.*?)</a>.*?<span.*?stats-vote.><.*?number.>(\d+?)<.*?<.*?web-list-comment.*?>.*?<i.*?number.>(\d+?)</i>', re.S)
-	pattern = re.compile(r'<div.*?author.*?>.*?<h2>(.*?)</h2>.*?<div.*?content.>.*?<span>(.*?)</span>.*?<!--.*?gif -->(.*?)<div.*?stats.>', re.S)
-	items = re.findall(pattern, content)
-	print items
-	for j in items:
-		print j
-	#for item in items:
-	#	for i in item:
-	#		print i
-	#for item in items:
-	#	haveImg = re.search("img", item[2])
-	#	if not haveImg:
-	#		print item[0], item[1], item[2], item[3], item[4]
+	pattern = re.compile(r'<div.*?author.*?>.*?<h2>(.*?)</h2>.*?<div.*?content.>.*?<span>(.*?)</span>.*?<!--.*?gif -->(.*?)<div class=\"stats\">.*?<span.*?stats-vote.*?number\">(\d+?)</i>.*?<a href=.*?web-list-comment.*?>.*?<i class=\"number\">(\d+?)</i>', re.S)
+	items = re.finditer(pattern, content)
+	#print items
+	#for j in items:
+	#	print j.group(5)
+	for item in items:
+		haveImg = re.search("img", item.group(3))
+		if not haveImg:
+			print item.group(1), item.group(2), item.group(4), item.group(5)
 except urllib2.URLError, e:
 	if hasattr(e,"code"):
 		print e.code
