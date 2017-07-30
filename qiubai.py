@@ -22,11 +22,11 @@ try:
 	items = re.finditer(pattern, content)
 	#print items
 	#for j in items:
-	#	print j.group(5)
+	#	print j.group(3)
 	for item in items:
 		haveImg = re.search("img", item.group(3))
 		if not haveImg:
-			print item.group(1), item.group(2), item.group(4), item.group(5)
+			print item.group(1), item.group(2), "funny: "+item.group(4), "comment: "+item.group(5)
 except urllib2.URLError, e:
 	if hasattr(e,"code"):
 		print e.code
